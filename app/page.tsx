@@ -29,12 +29,14 @@ const CHAINID = 11155111;
 async function getTransaction(ourAddress: `0x${string}`) {
   // we only need 'ourAddress' to automatically get nonce
 
-  // Deployed an example contract on sepolia that contains this function:
+  // Deployed an example contract on sepolia (at 0x585Ab35e3Ffe0e2A048352f34fa0B58B80299ED5) 
+  // which contains this function:
   //   function storeNumber(uint256 _number) public {
   //       emit CallSuccess(_number);
   //   }
 
-  // Code for generating data field - if you just want to send a transfer set: const txData = "0x"
+  // Code for generating data field for function call -
+  // if you just want to send a transfer, instead set: const txData = "0x"
   const abi = [
     "function storeNumber(uint256 _number) public"
   ];
@@ -242,7 +244,7 @@ export default function ArxInteractionDemo() {
       // the command has succeeded, display the result to the user
       const walletAddress = res.etherAddresses[1];
       setAddress(walletAddress);
-      setStatusText("Scan successful! Continue to Profile!");
+      setStatusText("");
     } catch (e) {
       // the command has failed, display error to the user
       setStatusText('Scanning failed, click on the button again to retry. Details: ' + String(e));
@@ -253,8 +255,8 @@ export default function ArxInteractionDemo() {
   async function mobileArxSignTx() {
     const transaction = await getTransaction(address as `0x${string}`);
     setTransaction(transaction)
-
     const digest = getDigest(transaction);
+
     const cmd = {
       name: 'sign',
       keyNo: 1,

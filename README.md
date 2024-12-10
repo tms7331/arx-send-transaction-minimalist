@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arx Transaction Next.js Demo
+
+<img src="assets/arxpage.png" alt="Screenshot" width="600"  />
+
+## Overview
+
+This is a minimal example of signing and broadcasting a transaction with an Arx chip, using their [libhalo](https://github.com/arx-research/libhalo) library.  I tried to focus on functions that would be simple to pull out and use, so there's a lot of duplicate code, as well as an unfortunate number of state variables.  Example code is provided for signing transactions directly on mobile, as well as signing on desktop (via QR code).  Note that the steps (Get Address, Sign Transaction, Send Transaction) must be completed in order - the wallet address is needed to programmatically get the nonce, which is needed to create the transaction.
+  
+- **Desktop**:
+- `desktopArxGetAddress`: Retrieve Arx address on desktop.
+- `desktopArxSignTx`: Sign transaction on desktop.
+- **Mobile**:
+- `mobileArxGetAddress`: Retrieve Arx address on mobile.
+- `mobileArxSignTx`: Sign transaction on mobile.
 
 ## Getting Started
 
-First, run the development server:
+To run the demo locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the Repository**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Navigate to the Project Directory**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+3. **Install Dependencies**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Create a .env file with the following (or hardcode an RPC url in page.tsx)**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   NEXT_PUBLIC_RPCURL=<your-sepolia-rpc-url>
+   ```
 
-## Deploy on Vercel
+5. **Run the Development Server**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. **Open in Browser**
+
+   Visit [http://localhost:3000](http://localhost:3000) to view the demo.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
