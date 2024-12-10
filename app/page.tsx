@@ -12,6 +12,7 @@ import { Interface } from '@ethersproject/abi';
 import { serialize } from "@ethersproject/transactions";
 import { keccak256 } from "@ethersproject/keccak256";
 import { hexlify } from "@ethersproject/bytes";
+import { UnsignedTransaction } from "@ethersproject/transactions";
 import { createPublicClient, http } from 'viem';
 
 // Hardcoded values for Sepolia - 
@@ -23,6 +24,7 @@ import { createPublicClient, http } from 'viem';
 //const RPCURL = 'https://ethereum-sepolia-rpc.publicnode.com';
 const RPCURL = process.env.NEXT_PUBLIC_RPCURL;
 const CHAINID = 11155111;
+
 
 async function getTransaction(ourAddress: `0x${string}`) {
   // we only need 'ourAddress' to automatically get nonce
@@ -61,28 +63,28 @@ async function getTransaction(ourAddress: `0x${string}`) {
   return transaction;
 }
 
-function getDigest(transaction: any) {
+function getDigest(transaction: UnsignedTransaction) {
   const serializedTransaction = serialize(transaction);
   const transactionHash = keccak256(serializedTransaction);
   const digest = hexlify(transactionHash).substring(2);
   return digest;
 }
 
-async function broadcastTransaction(transaction: any, v: number, r: `0x${string}`, s: `0x${string}`) {
+async function broadcastTransaction(transaction: UnsignedTransaction, v: number, r: `0x${string}`, s: `0x${string}`) {
   let txHashRet = ""
   const signedTransaction = serialize(transaction, { r, s, v });
   const client = createPublicClient({
     transport: http(RPCURL),
   });
   console.log("SENDING SIGNED TX ", signedTransaction)
-  const resp = await client.sendRawTransaction({
+  await client.sendRawTransaction({
     serializedTransaction: signedTransaction as `0x${string}`
   })
-    .then((txHash: any) => {
+    .then((txHash) => {
       console.log('Transaction hash:', txHash);
       txHashRet = txHash
     })
-    .catch((error: any) => {
+    .catch((error) => {
       console.error('Error sending transaction:', error);
     });
   return txHashRet;
@@ -126,10 +128,10 @@ export default function ArxInteractionDemo() {
     }
     if (isDesktop) {
       console.log('Signing transaction in desktop mode')
-      await desktopArxSignTx(address)
+      await desktopArxSignTx()
     } else {
       console.log('Signing transaction in mobile mode')
-      await mobileArxSignTx(address)
+      await mobileArxSignTx()
     }
   }
 
@@ -174,11 +176,12 @@ export default function ArxInteractionDemo() {
       setQrcAddr("");
     } catch (e) {
       console.log('caught error when execHaloCmd');
+      console.log(e);
     }
   }
 
 
-  async function desktopArxSignTx(tag: string) {
+  async function desktopArxSignTx() {
     const transaction = await getTransaction(address as `0x${string}`);
     setTransaction(transaction)
     const digest = getDigest(transaction);
@@ -211,6 +214,7 @@ export default function ArxInteractionDemo() {
       setQrcTx("");
     } catch (e) {
       console.log('caught error when execHaloCmd');
+      console.log(e);
     }
   }
 
@@ -246,7 +250,7 @@ export default function ArxInteractionDemo() {
   }
 
 
-  async function mobileArxSignTx(tag: string) {
+  async function mobileArxSignTx() {
     const transaction = await getTransaction(address as `0x${string}`);
     setTransaction(transaction)
 
