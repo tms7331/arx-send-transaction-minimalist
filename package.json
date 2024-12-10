@@ -9,17 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@arx-research/libhalo": "^1.10.9",
+    "@ethersproject/abi": "^5.7.0",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.1",
+    "@types/websocket": "^1.0.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-qr-code": "^2.0.15",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.21.54",
+    "websocket": "^1.0.35"
   },
   "devDependencies": {
     "@types/node": "^20",
